@@ -1,45 +1,19 @@
-
-
-// async function getJson(path) {
-//     if (res.ok){
-//         new Error(`HTTP ${res.status}`)
-//     }
-    
-//     return res.json()
-// }
-
-
-// export function get getSettings(){
-//     return getJson(`api/pages?path=${encodeURIComponent(path)}`)
-// }
-
-// export function get getPages(){
-//     return getJson(`api/pages?path=${encodeURIComponent(path)}`)
-// }
+const API_URL = import.meta.env.VITE_API_URL;
 
 async function getJson(path) {
-    const res = await fetch(path)
+    const res = await fetch(`${API_URL}${path}`);
 
     if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`)
+        throw new Error(`HTTP ${res.status}`);
     }
 
-    return res.json()
+    return res.json();
 }
 
-export async function getSettings() {
-    try {
-        return await getJson(`/api/settings`)
-    } catch (err) {
-        return console.error("Не вдалося завантажити налаштування, використано дефолтні:", err)
-    }
+export function getSettings() {
+    return getJson("/api/settings");
 }
 
-export async function getPages(path) {
-    try {
-        return await getJson(`/api/pages?path=${encodeURIComponent(path)}`)
-    } catch (err) {
-        console.error(`Не вдалося завантажити сторінку "${path}":`, err)
-        return null
-    }
+export function getPages(path) {
+    return getJson(`/api/pages?path=${encodeURIComponent(path)}`);
 }
